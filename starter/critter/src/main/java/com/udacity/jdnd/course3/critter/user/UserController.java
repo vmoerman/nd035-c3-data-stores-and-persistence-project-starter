@@ -1,5 +1,7 @@
 package com.udacity.jdnd.course3.critter.user;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
@@ -16,9 +18,16 @@ import java.util.Set;
 @RequestMapping("/user")
 public class UserController {
 
+    @Autowired
+    CustomerService customerService;
+
     @PostMapping("/customer")
-    public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO){
-        throw new UnsupportedOperationException();
+    public CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO)
+    {
+        Customer c = convertCustomerDTOToCustomer(customerDTO);
+        System.out.println("Saved customer with id:" + customerService.save(c));
+        return customerDTO;
+
     }
 
     @GetMapping("/customer")
@@ -49,6 +58,20 @@ public class UserController {
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
         throw new UnsupportedOperationException();
+    }
+
+    private static CustomerDTO convertEntityToCustomerDTO(Customer customer)
+    {
+        CustomerDTO customerDTO = new CustomerDTO();
+        BeanUtils.copyProperties(customer,customerDTO);
+        return customerDTO;
+    }
+
+    private static Customer convertCustomerDTOToCustomer(CustomerDTO customerDTO)
+    {
+        Customer customer = new Customer();
+        BeanUtils.copyProperties(customerDTO, customer);
+        return customer;
     }
 
 }
