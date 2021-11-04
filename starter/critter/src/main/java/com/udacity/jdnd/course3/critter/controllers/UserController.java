@@ -1,5 +1,10 @@
-package com.udacity.jdnd.course3.critter.user;
+package com.udacity.jdnd.course3.critter.controllers;
 
+import com.udacity.jdnd.course3.critter.entities.Customer;
+import com.udacity.jdnd.course3.critter.dtos.CustomerDTO;
+import com.udacity.jdnd.course3.critter.services.CustomerService;
+import com.udacity.jdnd.course3.critter.dtos.EmployeeDTO;
+import com.udacity.jdnd.course3.critter.dtos.EmployeeRequestDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

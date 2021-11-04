@@ -1,15 +1,14 @@
-package com.udacity.jdnd.course3.critter.pet;
+package com.udacity.jdnd.course3.critter.dtos;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.udacity.jdnd.course3.critter.pet.PetType;
+
 import java.time.LocalDate;
 
-@Entity
-public class Pet {
-
-    @GeneratedValue
-    @Id
+/**
+ * Represents the form that pet request and response data takes. Does not map
+ * to the database directly.
+ */
+public class PetDTO {
     private long id;
     private PetType type;
     private String name;
@@ -64,5 +63,4 @@ public class Pet {
     public void setId(long id) {
         this.id = id;
     }
-
 }
