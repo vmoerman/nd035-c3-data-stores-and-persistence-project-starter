@@ -18,7 +18,7 @@ public class Schedule {
     @Id
     private long id;
 
-    @OneToMany(mappedBy = "schedule")
+    @ManyToMany
     private List<Employee> employees;
 
     @ManyToMany

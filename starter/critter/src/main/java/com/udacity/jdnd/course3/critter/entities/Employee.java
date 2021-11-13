@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.DayOfWeek;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -25,8 +26,8 @@ public class Employee {
     @ElementCollection
     private Set<DayOfWeek> daysAvailable;
 
-    @ManyToOne
-    private Schedule schedule;
+    @ManyToMany
+    private List<Schedule> schedules;
 
 
 }
