@@ -19,9 +19,9 @@ public class Pet {
     private PetType type;
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name="ownerId", nullable=false)
-    private Customer customer;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="customer_id")
+    private Customer owner;
 
     @ManyToMany
     private List<Schedule> schedules;

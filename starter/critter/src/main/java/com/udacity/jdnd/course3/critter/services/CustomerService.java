@@ -13,6 +13,9 @@ public class CustomerService {
     @Autowired
     CustomerRepository customerRepository;
 
+    @Autowired
+    PetService petService;
+
     public Customer save(Customer customer)
     {
         return customerRepository.save(customer);
@@ -23,5 +26,10 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
+    public Customer getCustomer(long id){ return customerRepository.findById(id).orElse(null); }
 
+    public Customer getOwnerByPet(long petId)
+    {
+        return customerRepository.findByPetsId(petId);
+    }
 }

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,7 +21,11 @@ public class Customer {
     private String phoneNumber;
     private String notes;
 
-    @OneToMany(mappedBy = "customer")
-    private List<Pet> pets;
+    @OneToMany(mappedBy = "owner",cascade = CascadeType.ALL)
+    private List<Pet> pets = new ArrayList<>();
+
+    public void addPet(Pet pet){
+        pets.add(pet);
+    }
 
 }
