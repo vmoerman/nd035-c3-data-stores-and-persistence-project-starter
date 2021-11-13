@@ -68,26 +68,30 @@ public class UserController {
     @PostMapping("/employee")
     public EmployeeDTO saveEmployee(@RequestBody EmployeeDTO employeeDTO)
     {
-        Employee employeeToAdd = convertEmployeeDTOToEmployee(employeeDTO);
+        Employee employeeToAdd = convertToEntity(employeeDTO);
         Employee savedEmployee = employeeService.saveEmployee(employeeToAdd);
-        return convertEntityToEmployeeDTO(savedEmployee);
+        return convertToDTO(savedEmployee);
     }
 
     @PostMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId)
     {
-        return convertEntityToEmployeeDTO(employeeService.getEmployee(employeeId));
+        return convertToDTO(employeeService.getEmployee(employeeId));
     }
 
     @PutMapping("/employee/{employeeId}")
-    public void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+    public void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId)
+    {
+        employeeService.getEmployee(employeeId).setDaysAvailable(daysAvailable);
     }
 
     @GetMapping("/employee/availability")
-    public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+    public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeRequestDTO) {
+        List<Employee> employees = employeeService.findEmployeesForService(employeeRequestDTO.getDate(),employeeRequestDTO.getSkills());
+        return convertListEmployeeEntitytoDTO(employees);
     }
+
+    // Customer Mapper
 
     private Customer convertToEntity(CustomerDTO customerDTO){
         Customer customer = modelMapper.map(customerDTO,Customer.class);
@@ -133,32 +137,35 @@ public class UserController {
         return customerDTOList;
     }
 
-//    private static CustomerDTO convertEntityToCustomerDTO(Customer customer)
-//    {
-//        CustomerDTO customerDTO = new CustomerDTO();
-//        BeanUtils.copyProperties(customer,customerDTO);
-//        return customerDTO;
-//    }
-//
-//    private static Customer convertCustomerDTOToCustomer(CustomerDTO customerDTO)
-//    {
-//        Customer customer = new Customer();
-//        BeanUtils.copyProperties(customerDTO, customer);
-//        return customer;
-//    }
+    // Employee Mapper
 
-    private static EmployeeDTO convertEntityToEmployeeDTO(Employee employee)
-    {
-        EmployeeDTO employeeDTO = new EmployeeDTO();
-        BeanUtils.copyProperties(employee,employeeDTO);
-        return employeeDTO;
-    }
-
-    private static Employee convertEmployeeDTOToEmployee(EmployeeDTO employeeDTO)
-    {
-        Employee employee = new Employee();
-        BeanUtils.copyProperties(employeeDTO, employee);
+    private Employee convertToEntity(EmployeeDTO employeeDTO){
+        Employee employee = modelMapper.map(employeeDTO,Employee.class);
         return employee;
     }
 
+    private EmployeeDTO convertToDTO(Employee employee){
+        EmployeeDTO employeeDTO = modelMapper.map(employee,EmployeeDTO.class);
+        return employeeDTO;
+    }
+
+    private List<Employee> convertListEmployeeDTOtoEntity(List<EmployeeDTO> employeeDTOList)
+    {
+        List<Employee> employeeList = new ArrayList<>();
+        for (EmployeeDTO employeeDTO:employeeDTOList)
+        {
+            employeeList.add(convertToEntity(employeeDTO));
+        }
+        return employeeList;
+    }
+
+    private List<EmployeeDTO> convertListEmployeeEntitytoDTO(List<Employee> employeeList)
+    {
+        List<EmployeeDTO> employeeDTOList = new ArrayList<>();
+        for (Employee employee:employeeList)
+        {
+            employeeDTOList.add(convertToDTO(employee));
+        }
+        return employeeDTOList;
+    }
 }

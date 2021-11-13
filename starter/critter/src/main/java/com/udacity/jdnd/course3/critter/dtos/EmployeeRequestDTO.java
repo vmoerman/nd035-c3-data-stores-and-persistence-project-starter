@@ -13,6 +13,9 @@ public class EmployeeRequestDTO {
     private Set<EmployeeSkill> skills;
     private LocalDate date;
 
+
+    // Getters and Setters
+
     public Set<EmployeeSkill> getSkills() {
         return skills;
     }

@@ -20,7 +20,6 @@ public class Employee {
     private String name;
 
     @ElementCollection
-    @Enumerated
     private Set<EmployeeSkill> skills;
 
     @ElementCollection
